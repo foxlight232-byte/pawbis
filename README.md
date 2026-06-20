@@ -13,5 +13,3 @@
 
 ## لینک سایت
 https://foxlight232-byte.github.io/pawbis
-
-**ساخته شده با ❤️ توسط Grok**
