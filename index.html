@@ -1,242 +1,512 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matin | pawbis</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-        
-        body {
-            font-family: 'Vazirmatn', system-ui, sans-serif;
-        }
-        
-        .title-font {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        .hero-bg {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #2d004d 100%);
-        }
-        
-        .glow-purple {
-            box-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
-        }
-        
-        .terminal {
-            font-family: monospace;
-            background: #0a0a0a;
-            border: 1px solid #6b21a8;
-        }
-        
-        .nav-link {
-            position: relative;
-        }
-        
-        .nav-link:after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background: #a855f7;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover:after {
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Pawbis – Creative · Secure · Limitless" />
+  <title>Pawbis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --purple-deep:   #07000f;
+      --purple-dark:   #0f0720;
+      --purple-mid:    #3b0764;
+      --purple-accent: #7c3aed;
+      --purple-soft:   #c084fc;
+      --purple-text:   #e8d5ff;
+      --purple-muted:  #a78bfa;
+      --purple-dim:    #6d5a8a;
+      --indigo:        #4f46e5;
+      --cyan:          #06b6d4;
+      --rose:          #f43f5e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--purple-deep);
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--purple-text);
+      overflow-x: hidden;
+      cursor: none;
+      min-height: 100vh;
+    }
+
+    /* ── Custom cursor (desktop only) ── */
+    @media (hover: hover) and (pointer: fine) {
+      body { cursor: none; }
+    }
+    @media (hover: none) {
+      body { cursor: auto; }
+      #dot, #ring { display: none; }
+    }
+
+    #dot {
+      width: 10px; height: 10px;
+      background: var(--purple-soft);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform .12s, background .2s;
+      box-shadow: 0 0 14px var(--purple-soft), 0 0 32px var(--purple-accent);
+    }
+    #ring {
+      width: 34px; height: 34px;
+      border: 1.5px solid rgba(192,132,252,.5);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width .2s, height .2s, border-color .2s;
+    }
+
+    /* ── Background ── */
+    .frost-bg {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse at 15% 25%, var(--purple-mid) 0%, transparent 52%),
+        radial-gradient(ellipse at 85% 75%, #1e1b4b 0%, transparent 52%),
+        radial-gradient(ellipse at 50% 50%, var(--purple-dark) 0%, var(--purple-deep) 100%);
+      z-index: 0;
+    }
+
+    /* ── Snow canvas ── */
+    #snow {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Layout ── */
+    .content {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.25rem 4rem;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      padding: 4rem 1rem 2rem;
+    }
+
+    .logo {
+      font-size: clamp(3rem, 10vw, 5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #c084fc 0%, #818cf8 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: .06em;
+      line-height: 1.1;
+    }
+    .logo span {
+      -webkit-text-fill-color: rgba(192,132,252,.45);
+      font-weight: 300;
+    }
+
+    .tagline {
+      font-size: clamp(.75rem, 2.5vw, .9rem);
+      color: rgba(167,139,250,.45);
+      font-weight: 300;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      margin-top: .5rem;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.75rem 0 3rem;
+    }
+    .divider hr {
+      width: 55px; border: none;
+      border-top: 1px solid rgba(124,58,237,.4);
+    }
+    .divider .ti { color: var(--purple-soft); font-size: 16px; }
+
+    /* ── Crystal cards grid ── */
+    .crystal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .85rem;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 560px) {
+      .crystal-grid { grid-template-columns: 1fr 1fr; }
+      .crystal-grid .crystal-card:last-child { grid-column: span 2; }
+    }
+
+    .crystal-card {
+      background: rgba(139,92,246,.07);
+      border: 1px solid rgba(167,139,250,.12);
+      border-radius: 16px;
+      padding: 1.5rem .9rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform .3s, border-color .3s, background .3s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .crystal-card::before {
+      content: '';
+      position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(192,132,252,.07) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+    @media (hover: hover) {
+      .crystal-card:hover::before { opacity: 1; }
+      .crystal-card:hover {
+        transform: translateY(-5px);
+        border-color: rgba(192,132,252,.35);
+        background: rgba(139,92,246,.14);
+      }
+    }
+    .crystal-card .icon { font-size: 2rem; margin-bottom: .6rem; display: block; }
+    .crystal-card h3 { font-size: .8rem; font-weight: 500; color: #ddd6fe; letter-spacing: .04em; line-height: 1.4; }
+    .crystal-card p  { font-size: .68rem; color: rgba(124,106,160,.9); margin-top: .3rem; line-height: 1.6; }
+
+    /* ── Skills panel ── */
+    .section-label {
+      font-size: .68rem; letter-spacing: .22em;
+      color: var(--purple-accent); text-transform: uppercase; margin-bottom: .4rem;
+    }
+    .section-heading {
+      font-size: clamp(1.25rem, 4vw, 1.6rem);
+      font-weight: 700; color: #f0e6ff; margin-bottom: 1.75rem;
+    }
+
+    .skills-panel {
+      background: rgba(12,5,28,.88);
+      border: 1px solid rgba(167,139,250,.18);
+      border-radius: 20px;
+      padding: clamp(1.25rem, 4vw, 2rem);
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .skills-panel::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #7c3aed, #c084fc, #7c3aed, transparent);
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(.6rem, 2vw, 1rem);
+      padding: clamp(.9rem, 2.5vw, 1.2rem);
+      border-radius: 12px;
+      margin-bottom: .6rem;
+      border: 1px solid transparent;
+      transition: background .3s, border-color .3s;
+    }
+    .skill-item:last-child { margin-bottom: 0; }
+    @media (hover: hover) {
+      .skill-item:hover { background: rgba(124,58,237,.1); border-color: rgba(167,139,250,.18); }
+      .skill-item:hover .skill-icon { transform: scale(1.1) rotate(-5deg); }
+    }
+
+    .skill-icon {
+      width: 44px; height: 44px; min-width: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem;
+      transition: transform .3s;
+    }
+    .i-v { background: rgba(124,58,237,.2);  border: 1px solid rgba(124,58,237,.3); }
+    .i-i { background: rgba(79,70,229,.2);   border: 1px solid rgba(79,70,229,.3);  }
+    .i-c { background: rgba(6,182,212,.15);  border: 1px solid rgba(6,182,212,.25); }
+
+    .skill-info { flex: 1; min-width: 0; }
+    .skill-info h4 {
+      font-size: clamp(.85rem, 2.5vw, .95rem);
+      font-weight: 600; color: #e9d5ff; margin-bottom: .25rem; line-height: 1.4;
+    }
+    .skill-info p {
+      font-size: clamp(.7rem, 2vw, .75rem);
+      color: var(--purple-dim); line-height: 1.65;
+    }
+
+    .skill-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-top: .55rem; }
+    .tag {
+      font-size: .6rem; padding: 2px 8px;
+      border-radius: 20px; font-weight: 500; letter-spacing: .04em;
+    }
+    .tv  { background: rgba(124,58,237,.2); color: #a78bfa; border: 1px solid rgba(124,58,237,.3); }
+    .ti2 { background: rgba(79,70,229,.2);  color: #818cf8; border: 1px solid rgba(79,70,229,.3);  }
+    .tc  { background: rgba(6,182,212,.15); color: #22d3ee; border: 1px solid rgba(6,182,212,.25); }
+
+    .bar {
+      height: 3px; border-radius: 3px;
+      background: rgba(255,255,255,.05);
+      margin-top: .7rem; overflow: hidden;
+    }
+    .fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, #7c3aed, #c084fc);
+      transition: width 1.4s cubic-bezier(.4,0,.2,1);
+      width: 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      color: rgba(75,53,114,.9);
+      font-size: .7rem;
+      letter-spacing: .12em;
+    }
+    footer .ti { color: var(--purple-accent); font-size: 13px; vertical-align: -1px; margin: 0 4px; }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+      #snow { display: none; }
+    }
+  </style>
 </head>
-<body class="bg-black text-zinc-200">
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 bg-black/90 backdrop-blur-md border-b border-purple-900 z-50">
-        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-gradient-to-br from-purple-600 to-fuchsia-500 rounded-xl flex items-center justify-center text-xl font-bold">🐾</div>
-                <span class="text-2xl font-semibold tracking-tighter title-font text-white">pawbis</span>
-            </div>
-            
-            <div class="hidden md:flex items-center gap-8 text-sm uppercase tracking-widest">
-                <a href="#about" class="nav-link hover:text-purple-400 transition">درباره</a>
-                <a href="#skills" class="nav-link hover:text-purple-400 transition">مهارت‌ها</a>
-                <a href="#projects" class="nav-link hover:text-purple-400 transition">پروژه‌ها</a>
-                <a href="#contact" class="nav-link hover:text-purple-400 transition">تماس</a>
-            </div>
-            
-            <div class="text-xs font-mono text-purple-400 border border-purple-800 px-3 py-1 rounded">Matin @ pawbis</div>
-        </div>
-    </nav>
+<body>
 
-    <!-- Hero -->
-    <section id="home" class="hero-bg min-h-screen flex items-center pt-20 relative overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(#8b5cf6_0.8px,transparent_1px)] [background-size:40px_40px] opacity-10"></div>
-        
-        <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-purple-500/30 rounded-full mb-8">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                <span class="text-xs uppercase tracking-widest text-purple-400">Available for work</span>
-            </div>
-            
-            <h1 class="text-7xl md:text-8xl font-bold title-font tracking-tighter leading-none mb-6">
-                MATIN<br>
-                <span class="bg-gradient-to-r from-purple-400 to-fuchsia-400 bg-clip-text text-transparent">PAWBIS</span>
-            </h1>
-            
-            <p class="text-2xl md:text-3xl text-zinc-400 max-w-2xl mx-auto mb-12">
-                pawbis Is Meow Meow Meow Meow 🐾
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#about" class="px-10 py-4 bg-white text-black font-medium rounded-2xl hover:bg-zinc-200 transition inline-flex items-center gap-3 justify-center">
-                    <i class="fas fa-user"></i> بیشتر بدانید
-                </a>
-                <a href="#contact" class="px-10 py-4 border border-purple-500 hover:bg-purple-500/10 rounded-2xl transition inline-flex items-center gap-3 justify-center">
-                    <i class="fas fa-paper-plane"></i> تماس با من
-                </a>
-            </div>
-            
-            <div class="mt-20 flex justify-center gap-12 text-sm">
-                <div class="text-center">
-                    <div class="text-purple-400 text-3xl font-mono">∞</div>
-                    <div class="text-zinc-500 mt-1">سایبری</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-purple-400 text-3xl font-mono">✦</div>
-                    <div class="text-zinc-500 mt-1">ادوبی</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-purple-400 text-3xl font-mono">⚙️</div>
-                    <div class="text-zinc-500 mt-1">DevOps</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-purple-400">
-            <i class="fas fa-chevron-down text-3xl"></i>
-        </div>
-    </section>
+  <div class="frost-bg"></div>
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <div id="dot"  aria-hidden="true"></div>
+  <div id="ring" aria-hidden="true"></div>
 
-    <!-- About -->
-    <section id="about" class="py-32 border-t border-zinc-900">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="grid md:grid-cols-2 gap-16 items-center">
-                <div>
-                    <span class="uppercase text-purple-400 text-sm tracking-[3px]">Who am I</span>
-                    <h2 class="text-5xl font-bold title-font mt-4 leading-tight">Matin — pawbis</h2>
-                    <p class="mt-8 text-lg text-zinc-400 leading-relaxed">
-                        pawbis Is Meow Meow Meow Meow 🐾<br><br>
-                        متخصص امنیت سایبری، کار حرفه‌ای با نرم‌افزارهای ادوبی، DevOps و خیلی چیزهای دیگه. همیشه در حال یادگیری و ricing سیستم‌هام.
-                    </p>
-                </div>
-                <div class="terminal p-8 rounded-3xl text-sm leading-relaxed text-emerald-300">
-                    $ whoami<br>
-                    matin_pawbis<br><br>
-                    $ cat skills.txt<br>
-                    • Cybersecurity & Ethical Hacking<br>
-                    • Adobe Suite (PS, PR, AE)<br>
-                    • DevOps & Infrastructure<br>
-                    • Linux Ricing & Hyprland<br>
-                    • Web Development<br>
-                </div>
-            </div>
-        </div>
-    </section>
+  <div class="content">
+    <header>
+      <div class="logo">paw<span>·</span>bis</div>
+      <div class="tagline">Creative &nbsp;·&nbsp; Secure &nbsp;·&nbsp; Limitless</div>
+      <div class="divider">
+        <hr>
+        <i class="ti ti-diamond" aria-hidden="true"></i>
+        <hr>
+      </div>
+    </header>
 
-    <!-- Skills -->
-    <section id="skills" class="py-32 bg-zinc-950">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="text-purple-400 uppercase tracking-widest">Tech Stack</span>
-                <h2 class="text-5xl font-bold title-font mt-3">چی بلدم؟</h2>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div class="bg-zinc-900 border border-purple-900/50 p-8 rounded-3xl hover:border-purple-500 transition group">
-                    <div class="text-5xl mb-6">🔒</div>
-                    <h3 class="font-semibold text-xl">امنیت سایبری</h3>
-                    <p class="text-zinc-400 text-sm mt-3">Penetration Testing, Network Security</p>
-                </div>
-                <div class="bg-zinc-900 border border-purple-900/50 p-8 rounded-3xl hover:border-purple-500 transition group">
-                    <div class="text-5xl mb-6">🎨</div>
-                    <h3 class="font-semibold text-xl">Adobe Suite</h3>
-                    <p class="text-zinc-400 text-sm mt-3">Photoshop, Premiere, After Effects</p>
-                </div>
-                <div class="bg-zinc-900 border border-purple-900/50 p-8 rounded-3xl hover:border-purple-500 transition group">
-                    <div class="text-5xl mb-6">🚀</div>
-                    <h3 class="font-semibold text-xl">DevOps</h3>
-                    <p class="text-zinc-400 text-sm mt-3">Docker, CI/CD, Cloud</p>
-                </div>
-                <div class="bg-zinc-900 border border-purple-900/50 p-8 rounded-3xl hover:border-purple-500 transition group">
-                    <div class="text-5xl mb-6">🐧</div>
-                    <h3 class="font-semibold text-xl">Linux / Hyprland</h3>
-                    <p class="text-zinc-400 text-sm mt-3">Ricing & Window Managers</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Quick overview cards -->
+    <div class="crystal-grid" role="list">
+      <div class="crystal-card" role="listitem">
+        <span class="icon" aria-hidden="true">🎬</span>
+        <h3>Video Editing</h3>
+        <p>Premiere · After Effects · Photoshop</p>
+      </div>
+      <div class="crystal-card" role="listitem">
+        <span class="icon" aria-hidden="true">🔐</span>
+        <h3>Cybersecurity</h3>
+        <p>Ethical Hacking · Pen Testing · Dev</p>
+      </div>
+      <div class="crystal-card" role="listitem">
+        <span class="icon" aria-hidden="true">🎮</span>
+        <h3>Game &amp; Design</h3>
+        <p>Game Dev · 3D Modeling · Interior</p>
+      </div>
+    </div>
 
-    <!-- Projects -->
-    <section id="projects" class="py-32">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <span class="text-purple-400 uppercase tracking-widest">Projects</span>
-                <h2 class="text-5xl font-bold title-font mt-3">نمونه کارها</h2>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="group bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden hover:border-purple-500 transition">
-                    <div class="h-64 bg-zinc-800 flex items-center justify-center text-6xl">🔒</div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-semibold">Security Tools</h3>
-                        <p class="text-zinc-400 mt-3">ابزارهای تست نفوذ و اسکریپت‌های امنیتی</p>
-                    </div>
-                </div>
-                <div class="group bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden hover:border-purple-500 transition">
-                    <div class="h-64 bg-zinc-800 flex items-center justify-center text-6xl">🎬</div>
-                    <div class="p-8">
-                        <h3 class="text-2xl font-semibold">Adobe Edits</h3>
-                        <p class="text-zinc-400 mt-3">پروژه‌های موشن گرافیک و ویرایش ویدیو</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Skills panel -->
+    <main class="skills-panel" aria-label="Skills">
+      <div class="section-label">Expertise</div>
+      <div class="section-heading">My Skills</div>
 
-    <!-- Contact -->
-    <section id="contact" class="py-32 bg-zinc-950 border-t border-zinc-900">
-        <div class="max-w-md mx-auto px-6 text-center">
-            <h2 class="text-5xl font-bold title-font">Meow Meow Meow</h2>
-            <p class="text-zinc-400 mt-6">pawbis Is Meow Meow Meow Meow</p>
-            
-            <div class="mt-12 flex flex-col gap-4">
-                <a href="mailto:your@email.com" class="flex items-center justify-center gap-3 bg-zinc-900 hover:bg-purple-900 border border-purple-500 py-6 rounded-3xl transition">
-                    <i class="fas fa-envelope"></i> ایمیل
-                </a>
-                <a href="#" class="flex items-center justify-center gap-3 bg-zinc-900 hover:bg-purple-900 border border-purple-500 py-6 rounded-3xl transition">
-                    <i class="fab fa-telegram"></i> تلگرام
-                </a>
-            </div>
+      <article class="skill-item">
+        <div class="skill-icon i-v" aria-hidden="true">🎬</div>
+        <div class="skill-info">
+          <h4>Video Editing &amp; Adobe Suite</h4>
+          <p>Professional video editing, visual effects, graphic design and motion graphics using the full Adobe Creative Cloud ecosystem.</p>
+          <div class="skill-tags">
+            <span class="tag tv">Premiere Pro</span>
+            <span class="tag tv">After Effects</span>
+            <span class="tag tv">Photoshop</span>
+            <span class="tag tv">Illustrator</span>
+          </div>
+          <div class="bar" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100" aria-label="Proficiency 92%">
+            <div class="fill" data-w="92"></div>
+          </div>
         </div>
-    </section>
+      </article>
 
-    <footer class="py-12 text-center text-zinc-500 text-sm border-t border-zinc-900">
-        © Matin pawbis • Meow Meow Meow Meow 🐾
+      <article class="skill-item">
+        <div class="skill-icon i-i" aria-hidden="true">🔐</div>
+        <div class="skill-info">
+          <h4>Hacking, Security &amp; Cyber Development</h4>
+          <p>Vulnerability analysis, penetration testing, reverse engineering and building custom security tools.</p>
+          <div class="skill-tags">
+            <span class="tag ti2">Ethical Hacking</span>
+            <span class="tag ti2">Penetration Testing</span>
+            <span class="tag ti2">Cyber Security</span>
+            <span class="tag ti2">OSINT</span>
+          </div>
+          <div class="bar" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" aria-label="Proficiency 87%">
+            <div class="fill" data-w="87"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="skill-item">
+        <div class="skill-icon i-c" aria-hidden="true">🎮</div>
+        <div class="skill-info">
+          <h4>Game Development &amp; 3D / Interior Design</h4>
+          <p>Designing and developing games, 3D modeling, digital interior architecture and environment art.</p>
+          <div class="skill-tags">
+            <span class="tag tc">Game Design</span>
+            <span class="tag tc">3D Modeling</span>
+            <span class="tag tc">Interior Design</span>
+            <span class="tag tc">Blender</span>
+          </div>
+          <div class="bar" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100" aria-label="Proficiency 82%">
+            <div class="fill" data-w="82"></div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer>
+      <i class="ti ti-snowflake" aria-hidden="true"></i>
+      pawbis &nbsp;·&nbsp; all rights reserved
+      <i class="ti ti-snowflake" aria-hidden="true"></i>
     </footer>
+  </div>
 
-    <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
+  <script>
+    // ── Custom cursor (desktop only) ──────────────────────────────
+    (function () {
+      var dot  = document.getElementById('dot');
+      var ring = document.getElementById('ring');
+      if (!dot || !ring) return;
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+      var mx = 0, my = 0, rx = 0, ry = 0;
+
+      document.addEventListener('mousemove', function (e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      function animRing() {
+        rx += (mx - rx) * 0.13;
+        ry += (my - ry) * 0.13;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(animRing);
+      }
+      animRing();
+
+      var hoverEls = document.querySelectorAll('.crystal-card, .skill-item');
+      hoverEls.forEach(function (el) {
+        el.addEventListener('mouseenter', function () {
+          dot.style.transform = 'translate(-50%,-50%) scale(1.9)';
+          ring.style.width    = '52px';
+          ring.style.height   = '52px';
+          ring.style.borderColor = 'rgba(168,85,247,.75)';
         });
-    </script>
+        el.addEventListener('mouseleave', function () {
+          dot.style.transform = 'translate(-50%,-50%) scale(1)';
+          ring.style.width    = '34px';
+          ring.style.height   = '34px';
+          ring.style.borderColor = 'rgba(192,132,252,.5)';
+        });
+      });
+    }());
+
+    // ── Snow ─────────────────────────────────────────────────────
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      var canvas = document.getElementById('snow');
+      var ctx    = canvas.getContext('2d');
+      var W, H;
+
+      function resize() {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      var SYM = ['❄', '✦', '·', '◦', '+', '*'];
+      var flakes = [];
+      for (var i = 0; i < 110; i++) {
+        flakes.push({
+          x:    Math.random() * 1800,
+          y:    Math.random() * 1000,
+          r:    Math.random() * 11 + 4,
+          s:    SYM[Math.floor(Math.random() * SYM.length)],
+          sp:   Math.random() * 0.65 + 0.15,
+          drift:(Math.random() - 0.5) * 0.45,
+          op:   Math.random() * 0.45 + 0.08,
+          rot:  Math.random() * 360,
+          rs:   (Math.random() - 0.5) * 0.6
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        for (var j = 0; j < flakes.length; j++) {
+          var f = flakes[j];
+          ctx.save();
+          ctx.translate(f.x, f.y);
+          ctx.rotate(f.rot * Math.PI / 180);
+          ctx.globalAlpha = f.op;
+          ctx.fillStyle   = '#ddd6fe';
+          ctx.font        = f.r + 'px sans-serif';
+          ctx.textAlign   = 'center';
+          ctx.fillText(f.s, 0, 0);
+          ctx.restore();
+          f.y   += f.sp;
+          f.x   += f.drift;
+          f.rot += f.rs;
+          if (f.y > H + 20) { f.y = -20; f.x = Math.random() * W; }
+          if (f.x > W + 20)   f.x = -20;
+          if (f.x < -20)      f.x = W + 20;
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    }());
+
+    // ── Progress bars on load ─────────────────────────────────────
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        var bars = document.querySelectorAll('.fill');
+        bars.forEach(function (el) {
+          el.style.width = el.getAttribute('data-w') + '%';
+        });
+      }, 300);
+    });
+
+    // ── 3-D tilt on cards (desktop only) ─────────────────────────
+    (function () {
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      var cards = document.querySelectorAll('.crystal-card');
+      cards.forEach(function (card) {
+        card.addEventListener('mousemove', function (e) {
+          var r = card.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width  - 0.5;
+          var y = (e.clientY - r.top)  / r.height - 0.5;
+          card.style.transform = 'translateY(-5px) rotateX(' + (-y * 9) + 'deg) rotateY(' + (x * 9) + 'deg)';
+          card.style.transformOrigin = 'center';
+        });
+        card.addEventListener('mouseleave', function () {
+          card.style.transform = '';
+        });
+      });
+    }());
+  </script>
 </body>
 </html>
